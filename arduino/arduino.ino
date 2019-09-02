@@ -1,15 +1,17 @@
 /**
- *
- *
+ * Simple Arduino program for an ESP286 microcontroller
+ * that polls temperature and humidity values from a
+ * DHT22 sensor and transmits them via HTTP POST as
+ * a JSON document.
  */
 
-#include <ArduinoHttpClient.h>
 #include <ESP8266WiFi.h>
 #include <DHT.h>
+#include <ArduinoHttpClient.h>
+#include <ArduinoJson.h>
+
 #include "parameters.h"
 
-//
-// "application/x-www-form-urlencoded"
 #define CONTENT_TYPE "application/json"
 #define LED_PIN 2
 
@@ -31,11 +33,11 @@ float humid;
 
 // Setup function
 void setup() {
-  Serial.begin(115200);
-  delay(10);
-  setup_wifi();
-  dht.begin();
-  pinMode(LED_PIN, OUTPUT);
+    Serial.begin(115200);
+    delay(10);
+    setup_wifi();
+    dht.begin();
+    pinMode(LED_PIN, OUTPUT);
 }
 
 // Connect to WiFi network
@@ -57,21 +59,22 @@ void setup_wifi(){
 }
 
 // Main loop
-void loop(){ 
-  digitalWrite(LED_PIN, LOW);
+void loop(){
+    digitalWrite(LED_PIN, LOW);
 
-  read_state();
-  dump_state();
-  
-  String json = get_json();
-  Serial.print("JSON: ");  Serial.println(json);
-  send_json(json);
+    read_state();
+    //  dump_state();
 
-  counter++;
+    Serial.print("JSON: ");
+    String json = get_json();
+    Serial.println(json);
+    send_json(json);
 
-  digitalWrite(LED_PIN, HIGH);
+    counter++;
 
-  delay(10000);
+    digitalWrite(LED_PIN, HIGH);
+
+    delay(MAIN_INTERVAL);
 }
 
 void read_state(){
@@ -80,25 +83,28 @@ void read_state(){
   temp  = dht.readTemperature();
 }
 
-void dump_state(){
-  Serial.print("c=");    Serial.print(counter);
-  Serial.print(" vcc="); Serial.print(vcc);
-  Serial.print(" t=");   Serial.print(temp);
-  Serial.print(" h=");   Serial.print(humid);    
-  Serial.println();
-}
+//void dump_state(){
+//  Serial.print("c=");    Serial.print(counter);
+//  Serial.print(" vcc="); Serial.print(vcc);
+//  Serial.print(" t=");   Serial.print(temp);
+//  Serial.print(" h=");   Serial.print(humid);
+//  Serial.println();
+//}
 
 String get_json(){
-  String json = "{";
+    const int json_capacity = JSON_OBJECT_SIZE(4);
+    StaticJsonDocument<json_capacity> json_doc;
 
-  json += "\"counter\":\"";   json += counter;
-  json += ",\"vcc\":";        json += vcc;
-  json += ",\"temp\":";       json += temp;
-  json += ",\"humid\":";      json += humid;
+    json_doc["counter"].set(counter);
+    json_doc["vcc"].set(vcc);
+    json_doc["temp"].set(temp);
+    json_doc["humid"].set(humid);
 
-  json += "}";
+    // TODO: use static memory allocation
+    String json = "";
+    serializeJson(json_doc, json);
 
-  return json;
+    return json;
 }
 
 void send_json(String json){

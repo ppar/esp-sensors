@@ -1,3 +1,6 @@
+#
+# Simple HTTP server that accepts JSON documents over POST requests
+#
 import http.server
 import socketserver
 import json

@@ -5,6 +5,7 @@ Library installation
   - DHT sensor library
   - Adafruit Unified Sensor
   - ArduinoHttpClient
+  - ArduinoJson
 - See
   - https://github.com/adafruit/Adafruit_Sensor
   - https://github.com/adafruit/DHT-sensor-library

@@ -1,3 +1,5 @@
+#define MAIN_INTERVAL 5000
+
 // GPIO5 = BOARD D1
 // GPIO4 = BOARD D2
 #define DHT_GPIO_PIN 5
