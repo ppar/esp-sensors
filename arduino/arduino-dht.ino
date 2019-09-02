@@ -96,7 +96,7 @@ String get_json(){
   json += ",\"temp\":";       json += temp;
   json += ",\"humid\":";      json += humid;
 
-  json += "\}";
+  json += "}";
 
   return json;
 }
