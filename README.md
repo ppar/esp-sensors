@@ -5,11 +5,15 @@ Library installation
   - DHT sensor library
   - Adafruit Unified Sensor
   - ArduinoHttpClient
-    - https://github.com/arduino-libraries/ArduinoHttpClient
   - ArduinoJson
 - See
+  - https://github.com/arduino-libraries/ArduinoHttpClient
   - https://github.com/adafruit/Adafruit_Sensor
   - https://github.com/adafruit/DHT-sensor-library
+
+Win/Mac Drivers for the CH340G / CH341G serial chip
+- https://kig.re/2014/12/31/how-to-use-arduino-nano-mini-pro-with-CH340G-on-mac-osx-yosemite.html
+
 
 Pinout
 - https://learn.adafruit.com/dht/using-a-dhtxx-sensor
