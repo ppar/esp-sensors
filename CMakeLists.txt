@@ -10,3 +10,4 @@ set(SOURCE_FILES
         README.md)
 
 add_executable(arduino_dht ${SOURCE_FILES})
+

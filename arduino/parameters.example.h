@@ -5,6 +5,8 @@
 #define DHT_GPIO_PIN 5
 #define DHT_TYPE DHT22 
 
+#define WIFI_ENABLED 1
+
 #define WIFI_SSID "My net"
 #define WIFI_PASS "My pass"
 

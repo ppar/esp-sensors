@@ -22,8 +22,10 @@ ADC_MODE(ADC_VCC);
 DHT dht(DHT_GPIO_PIN, DHT_TYPE);
 
 // HTTP Client
+#if WIFI_ENABLED
 WiFiClient wifiClient;
 HttpClient httpClient = HttpClient(wifiClient, HTTP_ADDRESS, HTTP_PORT);
+#endif
 
 //
 int counter = 0;
@@ -35,6 +37,14 @@ float humid;
 void setup() {
     Serial.begin(115200);
     delay(10);
+
+    Serial.println();
+    Serial.println();
+    Serial.println("*****************************");
+    Serial.println("Starting up");
+    Serial.println("*****************************");
+    Serial.println();
+
     setup_wifi();
     dht.begin();
     pinMode(LED_PIN, OUTPUT);
@@ -42,6 +52,7 @@ void setup() {
 
 // Connect to WiFi network
 void setup_wifi(){
+#if WIFI_ENABLED
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(WIFI_SSID);
@@ -56,6 +67,9 @@ void setup_wifi(){
   Serial.print("WiFi connected, IP: ");  
   Serial.println(WiFi.localIP());
   Serial.println();
+#else
+  Serial.println("No WiFi support compiled in");
+#endif
 }
 
 // Main loop
@@ -108,6 +122,7 @@ String get_json(){
 }
 
 void send_json(String json){
+#if WIFI_ENABLED
   Serial.print("Sending data... ");
   httpClient.beginRequest();
   httpClient.post(HTTP_PATH);
@@ -123,5 +138,6 @@ void send_json(String json){
 
   Serial.print("status=");      Serial.print(statusCode);
   Serial.print(", response=");  Serial.println(response);
+#endif
 }
 
