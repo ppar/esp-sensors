@@ -4,6 +4,10 @@
 import http.server
 import socketserver
 import json
+import time
+
+def print_debug(msg):
+    pass
 
 class ReqHandler(http.server.BaseHTTPRequestHandler):
     def _error(self, code, message):
@@ -13,9 +17,9 @@ class ReqHandler(http.server.BaseHTTPRequestHandler):
         return
 
     def do_POST(self):
-        print('-' * 80)
-        print(self.path)
-        print(self.headers)
+        print_debug('-' * 80)
+        print_debug(self.path)
+        print_debug(self.headers)
 
         try:
             content_length = int(self.headers['Content-Length'])
@@ -29,6 +33,7 @@ class ReqHandler(http.server.BaseHTTPRequestHandler):
         except:
             return self._error(400,"could not parse JSON")
 
+        print(time.ctime(), end=" ")
         print(data)
 
         self.send_response(200)

@@ -37,9 +37,10 @@ float humid;
 void setup() {
     Serial.begin(115200);
     delay(10);
-
     Serial.println();
     Serial.println();
+    Serial.println("....");
+    delay(15);
     Serial.println("*****************************");
     Serial.println("Starting up");
     Serial.println("*****************************");
@@ -54,6 +55,11 @@ void setup() {
 void setup_wifi(){
 #if WIFI_ENABLED
   Serial.println();
+  Serial.print("HTTP Server address: ");
+  Serial.print(HTTP_ADDRESS);
+  Serial.print(" port: ");
+  Serial.println(HTTP_PORT);
+  
   Serial.print("Connecting to ");
   Serial.println(WIFI_SSID);
 
@@ -81,7 +87,7 @@ void loop(){
 
     Serial.print("JSON: ");
     String json = get_json();
-    Serial.println(json);
+    Serial.print(json);
     send_json(json);
 
     counter++;
@@ -140,4 +146,3 @@ void send_json(String json){
   Serial.print(", response=");  Serial.println(response);
 #endif
 }
-
